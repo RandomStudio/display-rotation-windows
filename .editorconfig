@@ -11,6 +11,6 @@ trim_trailing_whitespace = false
 indent_style = tab
 indent_size = 4
 
-[*.{json,bowerrc,frag,vert,glsl}]
+[*.{json,bowerrc,frag,vert,glsl, cc}]
 indent_style = space
 indent_size = 2

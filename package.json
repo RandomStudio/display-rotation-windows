@@ -4,6 +4,10 @@
   "description": "C++ addon project starter",
   "main": "index.js",
   "scripts": {
-    "start": "node ."
+    "start": "node .",
+    "build": "node-gyp configure && node-gyp build"
+  },
+  "dependencies": {
+    "bindings": "^1.3.0"
   }
 }
