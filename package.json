@@ -1,12 +1,15 @@
 {
-  "name": "node-cpp-addon",
+  "name": "rotate-display-windows",
   "version": "1.0.0",
-  "description": "C++ addon project starter",
+  "description": "Utility for Operating System level display rotation on Windows",
   "main": "index.js",
   "scripts": {
     "start": "node .",
-    "build": "node-gyp configure && node-gyp build"
+    "build": "node-gyp configure && node-gyp build",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "author": "TTT",
+  "license": "MIT",
   "dependencies": {
     "bindings": "^1.3.0"
   }
