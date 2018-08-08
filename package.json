@@ -1,0 +1,9 @@
+{
+  "name": "node-cpp-addon",
+  "version": "1.0.0",
+  "description": "C++ addon project starter",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ."
+  }
+}
