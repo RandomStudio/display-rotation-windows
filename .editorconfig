@@ -1,0 +1,16 @@
+root = true
+
+[*]
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.md]
+trim_trailing_whitespace = false
+
+[*.{html,hbs,xml,js,jsx,scss}]
+indent_style = tab
+indent_size = 4
+
+[*.{json,bowerrc,frag,vert,glsl}]
+indent_style = space
+indent_size = 2
