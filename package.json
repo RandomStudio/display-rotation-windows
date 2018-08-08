@@ -8,6 +8,10 @@
     "build": "node-gyp configure && node-gyp build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:navFooh/rotate-display-windows.git"
+  },
   "author": "TTT",
   "license": "MIT",
   "dependencies": {
