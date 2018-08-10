@@ -27,10 +27,7 @@ DEVMODE GetDevMode() {
 }
 
 DWORD CurrentRotation(DEVMODE dm) {
-  if (EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &dm) != 0) {
-    return dm.dmDisplayOrientation;
-  }
-  return 0;
+  return EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &dm) == 0 ? 0 : dm.dmDisplayOrientation;
 }
 
 DWORD TranslateCW(DWORD from) {
