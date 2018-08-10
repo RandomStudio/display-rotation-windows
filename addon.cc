@@ -17,6 +17,8 @@ const enum RotationType {
   NONE
 };
 
+// PRIVATE FUNCTIONS
+
 DEVMODE GetDevMode() {
   DEVMODE dm;
   ZeroMemory(&dm, sizeof(dm));
@@ -77,17 +79,38 @@ int32_t GetRotationInteger(DWORD rotation) {
   }
 }
 
+int32_t GetRotationResult(RotationType type) {
+  DEVMODE dm = GetDevMode();
+  DWORD rotation = CurrentRotation(dm);
+  DWORD rotated;
+  switch (type) {
+    case CW:    rotated = TranslateCW(rotation); break;
+    case CCW:   rotated = TranslateCCW(rotation); break;
+    case FULL:  rotated = Translate180(rotation); break;
+    default:    return GetRotationInteger(rotation);
+  }
+  return ChangeRotation(dm, rotated) ? GetRotationInteger(rotated) : -1;
+}
+
+// EXPOSED FUNCTIONS
+
 void GetRotation(const FunctionCallbackInfo<Value>& args) {
+  return args.GetReturnValue().Set(Integer::New(args.GetIsolate(), GetRotationResult(NONE)));
 }
 
 void RotateCW(const FunctionCallbackInfo<Value>& args) {
+  return args.GetReturnValue().Set(Integer::New(args.GetIsolate(), GetRotationResult(CW)));
 }
 
 void RotateCCW(const FunctionCallbackInfo<Value>& args) {
+  return args.GetReturnValue().Set(Integer::New(args.GetIsolate(), GetRotationResult(CCW)));
 }
 
 void Rotate180(const FunctionCallbackInfo<Value>& args) {
+  return args.GetReturnValue().Set(Integer::New(args.GetIsolate(), GetRotationResult(FULL)));
 }
+
+// INITIALIZE
 
 void Initialize(Local<Object> exports) {
   NODE_SET_METHOD(exports, "getRotation", GetRotation);
