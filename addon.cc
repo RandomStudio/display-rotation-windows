@@ -24,16 +24,6 @@ DEVMODE GetDevMode() {
   return dm;
 }
 
-int32_t GetRotationInteger(DWORD rotation) {
-  switch (rotation) {
-    case DMDO_DEFAULT:  return 0;
-    case DMDO_90:       return 90;
-    case DMDO_180:      return 180;
-    case DMDO_270:      return 270;
-    default:            return -1;
-  }
-}
-
 DWORD CurrentRotation(DEVMODE dm) {
   if (EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &dm) != 0) {
     return dm.dmDisplayOrientation;
@@ -75,6 +65,16 @@ bool ChangeRotation(DEVMODE dm, DWORD rotation) {
   dm.dmDisplayOrientation = rotation;
   long lRet = ChangeDisplaySettings(&dm, 0);
   return lRet == DISP_CHANGE_SUCCESSFUL;
+}
+
+int32_t GetRotationInteger(DWORD rotation) {
+  switch (rotation) {
+    case DMDO_DEFAULT:  return 0;
+    case DMDO_90:       return 90;
+    case DMDO_180:      return 180;
+    case DMDO_270:      return 270;
+    default:            return -1;
+  }
 }
 
 void GetRotation(const FunctionCallbackInfo<Value>& args) {
