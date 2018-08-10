@@ -19,17 +19,6 @@ const enum RotationType {
 
 // PRIVATE FUNCTIONS
 
-DEVMODE GetDevMode() {
-  DEVMODE dm;
-  ZeroMemory(&dm, sizeof(dm));
-  dm.dmSize = sizeof(dm);
-  return dm;
-}
-
-DWORD CurrentRotation(DEVMODE dm) {
-  return EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &dm) == 0 ? 0 : dm.dmDisplayOrientation;
-}
-
 DWORD TranslateCW(DWORD from) {
   switch (from) {
     case DMDO_DEFAULT:  return DMDO_90;
@@ -77,16 +66,21 @@ int32_t GetRotationInteger(DWORD rotation) {
 }
 
 int32_t GetRotationResult(RotationType type) {
-  DEVMODE dm = GetDevMode();
-  DWORD rotation = CurrentRotation(dm);
+  DEVMODE dm;
+  ZeroMemory(&dm, sizeof(dm));
+  dm.dmSize = sizeof(dm);
+
+  DWORD rotation = EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &dm) == 0 ? 0 : dm.dmDisplayOrientation;
   DWORD rotated;
   switch (type) {
     case CW:    rotated = TranslateCW(rotation); break;
     case CCW:   rotated = TranslateCCW(rotation); break;
     case FULL:  rotated = Translate180(rotation); break;
-    default:    return GetRotationInteger(rotation);
   }
-  return ChangeRotation(dm, rotated) ? GetRotationInteger(rotated) : -1;
+
+  return rotated
+    ? ChangeRotation(dm, rotated) ? GetRotationInteger(rotated) : -1
+    : GetRotationInteger(rotation);
 }
 
 // EXPOSED FUNCTIONS
