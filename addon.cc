@@ -34,6 +34,13 @@ int32_t GetRotationInteger(DWORD rotation) {
   }
 }
 
+DWORD CurrentRotation(DEVMODE dm) {
+  if (EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &dm) != 0) {
+    return dm.dmDisplayOrientation;
+  }
+  return 0;
+}
+
 DWORD TranslateCW(DWORD from) {
   switch (from) {
     case DMDO_DEFAULT:  return DMDO_90;
@@ -62,13 +69,6 @@ DWORD Translate180(DWORD from) {
     case DMDO_270:      return DMDO_90;
     default:            return 0;
   }
-}
-
-DWORD CurrentRotation(DEVMODE dm) {
-  if (EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &dm) != 0) {
-    return dm.dmDisplayOrientation;
-  }
-  return 0;
 }
 
 bool ChangeRotation(DEVMODE dm, DWORD rotation) {
