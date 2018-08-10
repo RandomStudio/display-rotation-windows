@@ -4,7 +4,10 @@
   "description": "Utility for Operating System level display rotation on Windows",
   "main": "index.js",
   "scripts": {
-    "start": "node .",
+    "start": "node . getRotation",
+    "rotateCW": "node . rotateCW",
+    "rotateCCW": "node . rotateCCW",
+    "rotate180": "node . rotate180",
     "build": "node-gyp configure && node-gyp build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
