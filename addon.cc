@@ -123,7 +123,7 @@ int32_t GetRotationResult(RotationType type) {
     case DMDO_270:      return 270;
   }
 
-  std::cerr << "Ended up with invalid Rotation" << std::endl;
+  std::cerr << "Ended up with invalid rotation" << std::endl;
   return INVALID_ROTATION;
 }
 
