@@ -25,20 +25,20 @@ const enum RotationType {
 
 DWORD TranslateCW(DWORD from) {
   switch (from) {
-    case DMDO_DEFAULT:  return DMDO_90;
-    case DMDO_90:       return DMDO_180;
-    case DMDO_180:      return DMDO_270;
-    case DMDO_270:      return DMDO_DEFAULT;
+    case DMDO_DEFAULT:  return DMDO_270;
+    case DMDO_90:       return DMDO_DEFAULT;
+    case DMDO_180:      return DMDO_90;
+    case DMDO_270:      return DMDO_180;
     default:            return 0;
   }
 }
 
 DWORD TranslateCCW(DWORD from) {
   switch (from) {
-    case DMDO_DEFAULT:  return DMDO_270;
-    case DMDO_90:       return DMDO_DEFAULT;
-    case DMDO_180:      return DMDO_90;
-    case DMDO_270:      return DMDO_180;
+    case DMDO_DEFAULT:  return DMDO_90;
+    case DMDO_90:       return DMDO_180;
+    case DMDO_180:      return DMDO_270;
+    case DMDO_270:      return DMDO_DEFAULT;
     default:            return 0;
   }
 }
