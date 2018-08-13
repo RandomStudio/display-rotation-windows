@@ -57,6 +57,34 @@ void ChangeOrientation180(DEVMODE &dm) {
   }
 }
 
+bool UpdateDisplaySettings(DEVMODE &dm) {
+  long lRet = ChangeDisplaySettings(&dm, 0);
+  switch (lRet) {
+    case DISP_CHANGE_BADDUALVIEW:
+      std::cerr << "The settings change was unsuccessful because the system is DualView capable." << std::endl;
+      break;
+    case DISP_CHANGE_BADFLAGS:
+      std::cerr << "An invalid set of flags was passed in." << std::endl;
+      break;
+    case DISP_CHANGE_BADMODE:
+      std::cerr << "The graphics mode is not supported." << std::endl;
+      break;
+    case DISP_CHANGE_BADPARAM:
+      std::cerr << "An invalid parameter was passed in. This can include an invalid flag or combination of flags." << std::endl;
+      break;
+    case DISP_CHANGE_FAILED:
+      std::cerr << "The display driver failed the specified graphics mode." << std::endl;
+      break;
+    case DISP_CHANGE_NOTUPDATED:
+      std::cerr << "Unable to write settings to the registry." << std::endl;
+      break;
+    case DISP_CHANGE_RESTART:
+      std::cerr << "The computer must be restarted for the graphics mode to work." << std::endl;
+      break;
+  }
+  return lRet == DISP_CHANGE_SUCCESSFUL;
+}
+
 int32_t GetRotationInteger(DWORD rotation) {
   switch (rotation) {
     case DMDO_DEFAULT:  return 0;
@@ -93,31 +121,9 @@ int32_t GetRotationResult(RotationType type) {
       break;
   }
 
-  if (dm.dmDisplayOrientation != originalOrientation) {
-    long lRet = ChangeDisplaySettings(&dm, 0);
-    switch (lRet) {
-      case DISP_CHANGE_BADDUALVIEW:
-        std::cerr << "The settings change was unsuccessful because the system is DualView capable." << std::endl;
-        return FAILED_TO_ROTATE;
-      case DISP_CHANGE_BADFLAGS:
-        std::cerr << "An invalid set of flags was passed in." << std::endl;
-        return FAILED_TO_ROTATE;
-      case DISP_CHANGE_BADMODE:
-        std::cerr << "The graphics mode is not supported." << std::endl;
-        return FAILED_TO_ROTATE;
-      case DISP_CHANGE_BADPARAM:
-        std::cerr << "An invalid parameter was passed in. This can include an invalid flag or combination of flags." << std::endl;
-        return FAILED_TO_ROTATE;
-      case DISP_CHANGE_FAILED:
-        std::cerr << "The display driver failed the specified graphics mode." << std::endl;
-        return FAILED_TO_ROTATE;
-      case DISP_CHANGE_NOTUPDATED:
-        std::cerr << "Unable to write settings to the registry." << std::endl;
-        return FAILED_TO_ROTATE;
-      case DISP_CHANGE_RESTART:
-        std::cerr << "The computer must be restarted for the graphics mode to work." << std::endl;
-        return FAILED_TO_ROTATE;
-    }
+  if (dm.dmDisplayOrientation != originalOrientation && !UpdateDisplaySettings(dm)) {
+    std::cerr << "Failed to rotate display" << std::endl;
+    return FAILED_TO_ROTATE;
   }
 
   return GetRotationInteger(dm.dmDisplayOrientation);
