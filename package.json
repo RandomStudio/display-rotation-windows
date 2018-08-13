@@ -4,7 +4,7 @@
   "description": "Utility for retrieving and changing the display rotation on Windows",
   "main": "index.js",
   "scripts": {
-    "start": "node . getRotation",
+    "getRotation": "node . getRotation",
     "rotateCW": "node . rotateCW",
     "rotateCCW": "node . rotateCCW",
     "rotate180": "node . rotate180",
