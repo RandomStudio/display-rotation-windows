@@ -1,4 +1,5 @@
 #define FAILED_TO_ENUMERATE -1
+#define FAILED_TO_ROTATE -2
 
 #include <node.h>
 #include <windows.h>
@@ -85,7 +86,7 @@ int32_t GetRotationResult(RotationType type) {
   }
 
   return rotated
-    ? ChangeRotation(dm, rotated) ? GetRotationInteger(rotated) : -1
+    ? ChangeRotation(dm, rotated) ? GetRotationInteger(rotated) : FAILED_TO_ROTATE
     : GetRotationInteger(rotation);
 }
 
