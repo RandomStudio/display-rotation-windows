@@ -1,3 +1,5 @@
+#define FAILED_TO_ENUMERATE -1
+
 #include <node.h>
 #include <windows.h>
 
@@ -70,8 +72,12 @@ int32_t GetRotationResult(RotationType type) {
   ZeroMemory(&dm, sizeof(dm));
   dm.dmSize = sizeof(dm);
 
-  DWORD rotation = EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &dm) == 0 ? 0 : dm.dmDisplayOrientation;
   DWORD rotated;
+  if (EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &dm) == 0) {
+    return FAILED_TO_ENUMERATE;
+  }
+
+  DWORD rotation = dm.dmDisplayOrientation;
   switch (type) {
     case CW:    rotated = TranslateCW(rotation); break;
     case CCW:   rotated = TranslateCCW(rotation); break;
