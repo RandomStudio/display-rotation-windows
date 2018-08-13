@@ -3,6 +3,7 @@
 #define INVALID_ROTATION -3
 
 #include <node.h>
+#include <iostream>
 #include <windows.h>
 
 namespace addon {
@@ -81,6 +82,7 @@ int32_t GetRotationResult(RotationType type) {
   dm.dmSize = sizeof(dm);
 
   if (EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &dm) == 0) {
+    std::cout << "Failed to enumerate display settings" << std::endl;
     return FAILED_TO_ENUMERATE;
   }
 
