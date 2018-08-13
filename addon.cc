@@ -1,6 +1,7 @@
 #define FAILED_TO_ENUMERATE -1
-#define FAILED_TO_ROTATE -2
-#define INVALID_ROTATION -3
+#define FAILED_TO_TRANSLATE -2
+#define FAILED_TO_ROTATE -3
+#define INVALID_ROTATION -4
 
 #include <node.h>
 #include <iostream>
@@ -30,40 +31,31 @@ void SwapWidthHeight(DEVMODE &dm) {
   dm.dmPelsWidth = dwTemp;
 }
 
-DWORD TranslateCW(DWORD from) {
-  switch (from) {
-    case DMDO_DEFAULT:  return DMDO_270;
-    case DMDO_90:       return DMDO_DEFAULT;
-    case DMDO_180:      return DMDO_90;
-    case DMDO_270:      return DMDO_180;
-    default:            return 0;
+void ChangeOrientationCW(DEVMODE &dm) {
+  switch (dm.dmDisplayOrientation) {
+    case DMDO_DEFAULT:  dm.dmDisplayOrientation = DMDO_270;     break;
+    case DMDO_90:       dm.dmDisplayOrientation = DMDO_DEFAULT; break;
+    case DMDO_180:      dm.dmDisplayOrientation = DMDO_90;      break;
+    case DMDO_270:      dm.dmDisplayOrientation = DMDO_180;     break;
   }
 }
 
-DWORD TranslateCCW(DWORD from) {
-  switch (from) {
-    case DMDO_DEFAULT:  return DMDO_90;
-    case DMDO_90:       return DMDO_180;
-    case DMDO_180:      return DMDO_270;
-    case DMDO_270:      return DMDO_DEFAULT;
-    default:            return 0;
+void ChangeOrientationCCW(DEVMODE &dm) {
+  switch (dm.dmDisplayOrientation) {
+    case DMDO_DEFAULT:  dm.dmDisplayOrientation = DMDO_90;      break;
+    case DMDO_90:       dm.dmDisplayOrientation = DMDO_180;     break;
+    case DMDO_180:      dm.dmDisplayOrientation = DMDO_270;     break;
+    case DMDO_270:      dm.dmDisplayOrientation = DMDO_DEFAULT; break;
   }
 }
 
-DWORD Translate180(DWORD from) {
-  switch (from) {
-    case DMDO_DEFAULT:  return DMDO_180;
-    case DMDO_90:       return DMDO_270;
-    case DMDO_180:      return DMDO_DEFAULT;
-    case DMDO_270:      return DMDO_90;
-    default:            return 0;
+void ChangeOrientation180(DEVMODE &dm) {
+  switch (dm.dmDisplayOrientation) {
+    case DMDO_DEFAULT:  dm.dmDisplayOrientation = DMDO_180;     break;
+    case DMDO_90:       dm.dmDisplayOrientation = DMDO_270;     break;
+    case DMDO_180:      dm.dmDisplayOrientation = DMDO_DEFAULT; break;
+    case DMDO_270:      dm.dmDisplayOrientation = DMDO_90;      break;
   }
-}
-
-bool ChangeRotation(DEVMODE dm, DWORD rotation) {
-  dm.dmDisplayOrientation = rotation;
-  long lRet = ChangeDisplaySettings(&dm, 0);
-  return lRet == DISP_CHANGE_SUCCESSFUL;
 }
 
 int32_t GetRotationInteger(DWORD rotation) {
@@ -82,21 +74,54 @@ int32_t GetRotationResult(RotationType type) {
   dm.dmSize = sizeof(dm);
 
   if (EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &dm) == 0) {
-    std::cout << "Failed to enumerate display settings" << std::endl;
+    std::cerr << "Failed to enumerate display settings" << std::endl;
     return FAILED_TO_ENUMERATE;
   }
 
-  DWORD rotation = dm.dmDisplayOrientation;
-  DWORD rotated = NULL;
+  DWORD originalOrientation = dm.dmDisplayOrientation;
 
   switch (type) {
-    case CW:    rotated = TranslateCW(rotation); break;
-    case CCW:   rotated = TranslateCCW(rotation); break;
-    case FULL:  rotated = Translate180(rotation); break;
-    default:    return GetRotationInteger(rotation);
+    case CW:
+      SwapWidthHeight(dm);
+      ChangeOrientationCW(dm);
+      break;
+    case CCW:
+      SwapWidthHeight(dm);
+      ChangeOrientationCCW(dm);
+      break;
+    case FULL:
+      ChangeOrientation180(dm);
+      break;
   }
 
-  return ChangeRotation(dm, rotated) ? GetRotationInteger(rotated) : FAILED_TO_ROTATE;
+  if (dm.dmDisplayOrientation != originalOrientation) {
+    long lRet = ChangeDisplaySettings(&dm, 0);
+    switch (lRet) {
+      case DISP_CHANGE_BADDUALVIEW:
+        std::cerr << "The settings change was unsuccessful because the system is DualView capable." << std::endl;
+        return FAILED_TO_ROTATE;
+      case DISP_CHANGE_BADFLAGS:
+        std::cerr << "An invalid set of flags was passed in." << std::endl;
+        return FAILED_TO_ROTATE;
+      case DISP_CHANGE_BADMODE:
+        std::cerr << "The graphics mode is not supported." << std::endl;
+        return FAILED_TO_ROTATE;
+      case DISP_CHANGE_BADPARAM:
+        std::cerr << "An invalid parameter was passed in. This can include an invalid flag or combination of flags." << std::endl;
+        return FAILED_TO_ROTATE;
+      case DISP_CHANGE_FAILED:
+        std::cerr << "The display driver failed the specified graphics mode." << std::endl;
+        return FAILED_TO_ROTATE;
+      case DISP_CHANGE_NOTUPDATED:
+        std::cerr << "Unable to write settings to the registry." << std::endl;
+        return FAILED_TO_ROTATE;
+      case DISP_CHANGE_RESTART:
+        std::cerr << "The computer must be restarted for the graphics mode to work." << std::endl;
+        return FAILED_TO_ROTATE;
+    }
+  }
+
+  return GetRotationInteger(dm.dmDisplayOrientation);
 }
 
 // EXPOSED FUNCTIONS
