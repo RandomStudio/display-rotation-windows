@@ -74,21 +74,21 @@ int32_t GetRotationResult(RotationType type) {
   ZeroMemory(&dm, sizeof(dm));
   dm.dmSize = sizeof(dm);
 
-  DWORD rotated;
   if (EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &dm) == 0) {
     return FAILED_TO_ENUMERATE;
   }
 
   DWORD rotation = dm.dmDisplayOrientation;
+  DWORD rotated = NULL;
+
   switch (type) {
     case CW:    rotated = TranslateCW(rotation); break;
     case CCW:   rotated = TranslateCCW(rotation); break;
     case FULL:  rotated = Translate180(rotation); break;
+    default:    return GetRotationInteger(rotation);
   }
 
-  return rotated
-    ? ChangeRotation(dm, rotated) ? GetRotationInteger(rotated) : FAILED_TO_ROTATE
-    : GetRotationInteger(rotation);
+  return ChangeRotation(dm, rotated) ? GetRotationInteger(rotated) : FAILED_TO_ROTATE;
 }
 
 // EXPOSED FUNCTIONS
