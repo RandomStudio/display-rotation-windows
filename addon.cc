@@ -1,7 +1,6 @@
 #define FAILED_TO_ENUMERATE -1
-#define FAILED_TO_TRANSLATE -2
-#define FAILED_TO_ROTATE -3
-#define INVALID_ROTATION -4
+#define FAILED_TO_ROTATE -2
+#define INVALID_ROTATION -3
 
 #include <node.h>
 #include <iostream>
