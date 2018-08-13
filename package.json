@@ -1,7 +1,7 @@
 {
-  "name": "rotate-display-windows",
+  "name": "display-rotation-windows",
   "version": "1.0.0",
-  "description": "Utility for Operating System level display rotation on Windows",
+  "description": "Utility for retrieving and changing the display rotation on Windows",
   "main": "index.js",
   "scripts": {
     "start": "node . getRotation",
@@ -13,9 +13,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:navFooh/rotate-display-windows.git"
+    "url": "git@github.com:RandomStudio/display-rotation-windows.git"
   },
-  "author": "TTT",
+  "author": "Random Studio",
   "license": "MIT",
   "dependencies": {
     "bindings": "^1.3.0"
