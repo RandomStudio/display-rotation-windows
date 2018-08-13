@@ -2,8 +2,8 @@
 #define FAILED_TO_ROTATE -2
 #define INVALID_ROTATION -3
 
-#include <node.h>
 #include <iostream>
+#include <node.h>
 #include <windows.h>
 
 namespace addon {
