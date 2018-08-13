@@ -1,6 +1,6 @@
-#define FAILED_TO_ENUMERATE -1
-#define FAILED_TO_ROTATE -2
-#define INVALID_ROTATION -3
+#define ERR_FAILED_TO_ENUMERATE -1
+#define ERR_FAILED_TO_ROTATE -2
+#define ERR_INVALID_ROTATION_RESULT -3
 
 #include <iostream>
 #include <node.h>
@@ -92,7 +92,7 @@ int32_t GetRotationResult(RotationType type) {
 
   if (EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &dm) == 0) {
     std::cerr << "Failed to enumerate display settings" << std::endl;
-    return FAILED_TO_ENUMERATE;
+    return ERR_FAILED_TO_ENUMERATE;
   }
 
   DWORD originalOrientation = dm.dmDisplayOrientation;
@@ -113,7 +113,7 @@ int32_t GetRotationResult(RotationType type) {
 
   if (dm.dmDisplayOrientation != originalOrientation && !UpdateDisplaySettings(dm)) {
     std::cerr << "Failed to rotate display" << std::endl;
-    return FAILED_TO_ROTATE;
+    return ERR_FAILED_TO_ROTATE;
   }
 
   switch (dm.dmDisplayOrientation) {
@@ -124,7 +124,7 @@ int32_t GetRotationResult(RotationType type) {
   }
 
   std::cerr << "Ended up with invalid rotation" << std::endl;
-  return INVALID_ROTATION;
+  return ERR_INVALID_ROTATION_RESULT;
 }
 
 // EXPOSED FUNCTIONS
