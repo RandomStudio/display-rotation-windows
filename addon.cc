@@ -23,6 +23,12 @@ const enum RotationType {
 
 // PRIVATE FUNCTIONS
 
+void SwapWidthHeight(DEVMODE &dm) {
+  DWORD dwTemp = dm.dmPelsHeight;
+  dm.dmPelsHeight= dm.dmPelsWidth;
+  dm.dmPelsWidth = dwTemp;
+}
+
 DWORD TranslateCW(DWORD from) {
   switch (from) {
     case DMDO_DEFAULT:  return DMDO_270;
