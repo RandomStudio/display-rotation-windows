@@ -91,7 +91,6 @@ int32_t GetRotationResult(RotationType type) {
   dm.dmSize = sizeof(dm);
 
   if (EnumDisplaySettings(NULL, ENUM_CURRENT_SETTINGS, &dm) == 0) {
-    std::cerr << "Failed to enumerate display settings" << std::endl;
     return ERR_FAILED_TO_ENUMERATE;
   }
 
@@ -123,7 +122,6 @@ int32_t GetRotationResult(RotationType type) {
     case DMDO_270:      return 270;
   }
 
-  std::cerr << "Ended up with invalid rotation" << std::endl;
   return ERR_INVALID_ROTATION_RESULT;
 }
 
