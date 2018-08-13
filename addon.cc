@@ -85,16 +85,6 @@ bool UpdateDisplaySettings(DEVMODE &dm) {
   return lRet == DISP_CHANGE_SUCCESSFUL;
 }
 
-int32_t GetRotationInteger(DWORD rotation) {
-  switch (rotation) {
-    case DMDO_DEFAULT:  return 0;
-    case DMDO_90:       return 90;
-    case DMDO_180:      return 180;
-    case DMDO_270:      return 270;
-    default:            return INVALID_ROTATION;
-  }
-}
-
 int32_t GetRotationResult(RotationType type) {
   DEVMODE dm;
   ZeroMemory(&dm, sizeof(dm));
@@ -126,7 +116,15 @@ int32_t GetRotationResult(RotationType type) {
     return FAILED_TO_ROTATE;
   }
 
-  return GetRotationInteger(dm.dmDisplayOrientation);
+  switch (dm.dmDisplayOrientation) {
+    case DMDO_DEFAULT:  return 0;
+    case DMDO_90:       return 90;
+    case DMDO_180:      return 180;
+    case DMDO_270:      return 270;
+  }
+
+  std::cerr << "Ended up with invalid Rotation" << std::endl;
+  return INVALID_ROTATION;
 }
 
 // EXPOSED FUNCTIONS
