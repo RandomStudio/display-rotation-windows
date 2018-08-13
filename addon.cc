@@ -32,28 +32,28 @@ void SwapWidthHeight(DEVMODE &dm) {
 
 void ChangeOrientationCW(DEVMODE &dm) {
   switch (dm.dmDisplayOrientation) {
-    case DMDO_DEFAULT:  dm.dmDisplayOrientation = DMDO_270;     break;
-    case DMDO_90:       dm.dmDisplayOrientation = DMDO_DEFAULT; break;
-    case DMDO_180:      dm.dmDisplayOrientation = DMDO_90;      break;
-    case DMDO_270:      dm.dmDisplayOrientation = DMDO_180;     break;
+    case DMDO_DEFAULT:  dm.dmDisplayOrientation = DMDO_270;     return;
+    case DMDO_90:       dm.dmDisplayOrientation = DMDO_DEFAULT; return;
+    case DMDO_180:      dm.dmDisplayOrientation = DMDO_90;      return;
+    case DMDO_270:      dm.dmDisplayOrientation = DMDO_180;     return;
   }
 }
 
 void ChangeOrientationCCW(DEVMODE &dm) {
   switch (dm.dmDisplayOrientation) {
-    case DMDO_DEFAULT:  dm.dmDisplayOrientation = DMDO_90;      break;
-    case DMDO_90:       dm.dmDisplayOrientation = DMDO_180;     break;
-    case DMDO_180:      dm.dmDisplayOrientation = DMDO_270;     break;
-    case DMDO_270:      dm.dmDisplayOrientation = DMDO_DEFAULT; break;
+    case DMDO_DEFAULT:  dm.dmDisplayOrientation = DMDO_90;      return;
+    case DMDO_90:       dm.dmDisplayOrientation = DMDO_180;     return;
+    case DMDO_180:      dm.dmDisplayOrientation = DMDO_270;     return;
+    case DMDO_270:      dm.dmDisplayOrientation = DMDO_DEFAULT; return;
   }
 }
 
 void ChangeOrientation180(DEVMODE &dm) {
   switch (dm.dmDisplayOrientation) {
-    case DMDO_DEFAULT:  dm.dmDisplayOrientation = DMDO_180;     break;
-    case DMDO_90:       dm.dmDisplayOrientation = DMDO_270;     break;
-    case DMDO_180:      dm.dmDisplayOrientation = DMDO_DEFAULT; break;
-    case DMDO_270:      dm.dmDisplayOrientation = DMDO_90;      break;
+    case DMDO_DEFAULT:  dm.dmDisplayOrientation = DMDO_180;     return;
+    case DMDO_90:       dm.dmDisplayOrientation = DMDO_270;     return;
+    case DMDO_180:      dm.dmDisplayOrientation = DMDO_DEFAULT; return;
+    case DMDO_270:      dm.dmDisplayOrientation = DMDO_90;      return;
   }
 }
 
