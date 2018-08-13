@@ -1,6 +1,6 @@
 #define ERR_FAILED_TO_ENUMERATE -1
 #define ERR_FAILED_TO_ROTATE -2
-#define ERR_INVALID_ROTATION_RESULT -3
+#define ERR_INVALID_ROTATION_RESULT -100
 
 #include <iostream>
 #include <node.h>
