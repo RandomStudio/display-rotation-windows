@@ -1,5 +1,6 @@
 #define FAILED_TO_ENUMERATE -1
 #define FAILED_TO_ROTATE -2
+#define INVALID_ROTATION -3
 
 #include <node.h>
 #include <windows.h>
@@ -64,7 +65,7 @@ int32_t GetRotationInteger(DWORD rotation) {
     case DMDO_90:       return 90;
     case DMDO_180:      return 180;
     case DMDO_270:      return 270;
-    default:            return -1;
+    default:            return INVALID_ROTATION;
   }
 }
 
