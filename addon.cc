@@ -30,13 +30,13 @@ const enum RotationType {
 
 // PRIVATE FUNCTIONS
 
-void SwapWidthHeight(DEVMODE &dm) {
+void SwapWidthHeight(DEVMODE& dm) {
   DWORD dwTemp = dm.dmPelsHeight;
   dm.dmPelsHeight= dm.dmPelsWidth;
   dm.dmPelsWidth = dwTemp;
 }
 
-void ChangeOrientationCW(DEVMODE &dm) {
+void ChangeOrientationCW(DEVMODE& dm) {
   switch (dm.dmDisplayOrientation) {
     case DMDO_DEFAULT:  dm.dmDisplayOrientation = DMDO_270;     return;
     case DMDO_90:       dm.dmDisplayOrientation = DMDO_DEFAULT; return;
@@ -45,7 +45,7 @@ void ChangeOrientationCW(DEVMODE &dm) {
   }
 }
 
-void ChangeOrientationCCW(DEVMODE &dm) {
+void ChangeOrientationCCW(DEVMODE& dm) {
   switch (dm.dmDisplayOrientation) {
     case DMDO_DEFAULT:  dm.dmDisplayOrientation = DMDO_90;      return;
     case DMDO_90:       dm.dmDisplayOrientation = DMDO_180;     return;
@@ -54,7 +54,7 @@ void ChangeOrientationCCW(DEVMODE &dm) {
   }
 }
 
-void ChangeOrientation180(DEVMODE &dm) {
+void ChangeOrientation180(DEVMODE& dm) {
   switch (dm.dmDisplayOrientation) {
     case DMDO_DEFAULT:  dm.dmDisplayOrientation = DMDO_180;     return;
     case DMDO_90:       dm.dmDisplayOrientation = DMDO_270;     return;
