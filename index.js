@@ -42,7 +42,7 @@ module.exports = {
 	getRotation: () => {
 		const result = addon.getRotation();
 		if (!validRotations.includes(result)) {
-			throw(new Error(errorCodes.get(result) || unknownError));
+			throw new Error(errorCodes.get(result) || unknownError);
 		}
 		return result;
 	},
@@ -50,7 +50,7 @@ module.exports = {
 	rotateCW: () => {
 		const result = addon.rotateCW();
 		if (!validRotations.includes(result)) {
-			throw(new Error(errorCodes.get(result) || unknownError));
+			throw new Error(errorCodes.get(result) || unknownError);
 		}
 		return result;
 	},
@@ -58,7 +58,7 @@ module.exports = {
 	rotateCCW: () => {
 		const result = addon.rotateCCW();
 		if (!validRotations.includes(result)) {
-			throw(new Error(errorCodes.get(result) || unknownError));
+			throw new Error(errorCodes.get(result) || unknownError);
 		}
 		return result;
 	},
@@ -66,7 +66,7 @@ module.exports = {
 	rotate180: () => {
 		const result = addon.rotate180();
 		if (!validRotations.includes(result)) {
-			throw(new Error(errorCodes.get(result) || unknownError));
+			throw new Error(errorCodes.get(result) || unknownError);
 		}
 		return result;
 	},
