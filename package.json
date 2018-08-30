@@ -2,6 +2,15 @@
   "name": "display-rotation-windows",
   "version": "1.0.1",
   "description": "Utility for retrieving and changing the display rotation on Windows",
+  "keywords": [
+    "display",
+    "screen",
+    "rotation",
+    "windows",
+    "orientation",
+    "landscape",
+    "portrait"
+  ],
   "main": "index.js",
   "scripts": {
     "getRotation": "node . getRotation",
