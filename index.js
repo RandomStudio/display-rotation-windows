@@ -13,6 +13,7 @@ const errorCodes = new Map([
 	[-16, 'Failed to change display settings: The computer must be restarted for the graphics mode to work.'],
 	[-17, 'Failed to change display settings: Unknown error'],
 	[-100, 'Ended up with invalid rotation result'],
+	[-200, 'The display rotation functionality only works on Windows'],
 ]);
 
 const unknownError = 'Result did not match with a valid rotation or known error code';
